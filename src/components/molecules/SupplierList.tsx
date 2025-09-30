@@ -7,10 +7,11 @@ interface SupplierListProps {
   onEdit?: (supplier: SupplierListDto) => void;
   onDelete?: (id: number) => void;
   onUpdate?: () => void;
+  onViewRelationships?: (supplier: SupplierListDto) => void;
   isLoading?: boolean;
 }
 
-export function SupplierList({ suppliers, onEdit, onDelete, onUpdate, isLoading = false }: SupplierListProps) {
+export function SupplierList({ suppliers, onEdit, onDelete, onUpdate, onViewRelationships, isLoading = false }: SupplierListProps) {
   if (isLoading) {
     return (
       <Grid>
@@ -43,6 +44,7 @@ export function SupplierList({ suppliers, onEdit, onDelete, onUpdate, isLoading 
             onEdit={onEdit}
             onDelete={onDelete}
             onUpdate={onUpdate}
+            onViewRelationships={onViewRelationships}
           />
         </Grid.Col>
       ))}

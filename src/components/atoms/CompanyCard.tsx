@@ -1,5 +1,5 @@
 import { CompanyListDto } from '@/types/company';
-import { IconBuilding, IconMapPin, IconCalendar, IconEdit, IconTrash } from '@tabler/icons-react';
+import { IconBuilding, IconMapPin, IconCalendar, IconEdit, IconTrash, IconLink } from '@tabler/icons-react';
 import { GenericCard } from './GenericCard';
 
 interface CompanyCardProps {
@@ -7,10 +7,20 @@ interface CompanyCardProps {
   onEdit?: (company: CompanyListDto) => void;
   onDelete?: (id: number) => void;
   onUpdate?: () => void;
+  onViewRelationships?: (company: CompanyListDto) => void;
 }
 
-export function CompanyCard({ company, onEdit, onDelete, onUpdate }: CompanyCardProps) {
+export function CompanyCard({ company, onEdit, onDelete, onUpdate, onViewRelationships }: CompanyCardProps) {
   const actions = [];
+  
+  if (onViewRelationships) {
+    actions.push({
+      icon: <IconLink className="h-4 w-4" />,
+      label: 'Relacionamentos',
+      onClick: () => onViewRelationships(company),
+      className: 'text-green-600 hover:bg-green-50'
+    });
+  }
   
   if (onEdit) {
     actions.push({

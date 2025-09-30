@@ -4,6 +4,7 @@ import {
   mantineHtmlProps,
   MantineProvider,
 } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import theme from "./theme";
 import "./globals.css";
 import Navigation from "@/components/organisms/Navigation";
@@ -25,7 +26,10 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
       <Navigation />
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider theme={theme}>
+          <Notifications />
+          {children}
+        </MantineProvider>
       </body>
     </html>
   );

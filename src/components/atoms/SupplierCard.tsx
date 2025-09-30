@@ -1,5 +1,5 @@
 import { SupplierListDto } from '@/types/supplier';
-import { IconUser, IconBuilding, IconMapPin, IconCalendar, IconEdit, IconTrash, IconMail } from '@tabler/icons-react';
+import { IconUser, IconBuilding, IconMapPin, IconCalendar, IconEdit, IconTrash, IconMail, IconLink } from '@tabler/icons-react';
 import { PersonType } from '@/types/supplier';
 import { GenericCard } from './GenericCard';
 
@@ -8,13 +8,23 @@ interface SupplierCardProps {
   onEdit?: (supplier: SupplierListDto) => void;
   onDelete?: (id: number) => void;
   onUpdate?: () => void;
+  onViewRelationships?: (supplier: SupplierListDto) => void;
 }
 
-export function SupplierCard({ supplier, onEdit, onDelete, onUpdate }: SupplierCardProps) {
+export function SupplierCard({ supplier, onEdit, onDelete, onUpdate, onViewRelationships }: SupplierCardProps) {
   const isIndividual = supplier.cpf;
   const personType = isIndividual ? PersonType.Individual : PersonType.Company;
   
   const actions = [];
+  
+  if (onViewRelationships) {
+    actions.push({
+      icon: <IconLink className="h-4 w-4" />,
+      label: 'Relacionamentos',
+      onClick: () => onViewRelationships(supplier),
+      className: 'text-green-600 hover:bg-green-50'
+    });
+  }
   
   if (onEdit) {
     actions.push({

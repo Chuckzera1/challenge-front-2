@@ -13,6 +13,7 @@ import { CompanyList } from '../../molecules/CompanyList';
 import { GenericPagination } from '../../molecules/GenericPagination';
 import { CompanyFilters } from '../../atoms/CompanyFilters';
 import { CompanyForm } from '../../atoms/CompanyForm';
+import { RelationshipModal } from '../../atoms/RelationshipModal';
 import { companyService } from '@/services/companyService';
 import { 
   CompanyListDto, 
@@ -30,6 +31,8 @@ export function CompanyManagement() {
   const [editingCompany, setEditingCompany] = useState<CompanyListDto | null>(null);
   const [filters, setFilters] = useState<GetAllCompanyFilterDto>({});
   const [error, setError] = useState<string | null>(null);
+  const [isRelationshipModalOpen, setIsRelationshipModalOpen] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState<CompanyListDto | null>(null);
 
   const loadCompanies = async (page = 1, newFilters: GetAllCompanyFilterDto = {}) => {
     try {
@@ -130,6 +133,20 @@ export function CompanyManagement() {
     setEditingCompany(null);
   };
 
+  const handleViewRelationships = (company: CompanyListDto) => {
+    setSelectedCompany(company);
+    setIsRelationshipModalOpen(true);
+  };
+
+  const handleRelationshipModalClose = () => {
+    setIsRelationshipModalOpen(false);
+    setSelectedCompany(null);
+  };
+
+  const handleRelationshipUpdate = () => {
+    loadCompanies(pagination?.page || 1, filters);
+  };
+
   return (
     <Stack gap="lg">
       <Group justify="space-between" align="center">
@@ -166,6 +183,7 @@ export function CompanyManagement() {
         onEdit={handleEdit}
         onDelete={handleDelete}
         onUpdate={() => loadCompanies(pagination?.page || 1, filters)}
+        onViewRelationships={handleViewRelationships}
         isLoading={isLoading}
       />
 
@@ -192,6 +210,16 @@ export function CompanyManagement() {
           isLoading={isLoading}
         />
       </Modal>
+
+      {selectedCompany && (
+        <RelationshipModal
+          opened={isRelationshipModalOpen}
+          onClose={handleRelationshipModalClose}
+          entity={selectedCompany}
+          entityType="company"
+          onUpdate={handleRelationshipUpdate}
+        />
+      )}
     </Stack>
   );
 }

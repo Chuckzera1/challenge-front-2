@@ -13,6 +13,7 @@ import { SupplierList } from '../../molecules/SupplierList';
 import { GenericPagination } from '../../molecules/GenericPagination';
 import { SupplierFilters } from '../../atoms/SupplierFilters';
 import { SupplierForm } from '../../atoms/SupplierForm';
+import { RelationshipModal } from '../../atoms/RelationshipModal';
 import { supplierService } from '@/services/supplierService';
 import { 
   SupplierListDto, 
@@ -30,6 +31,8 @@ export function SupplierManagement() {
   const [editingSupplier, setEditingSupplier] = useState<SupplierListDto | null>(null);
   const [filters, setFilters] = useState<GetAllSupplierFilterDto>({});
   const [error, setError] = useState<string | null>(null);
+  const [isRelationshipModalOpen, setIsRelationshipModalOpen] = useState(false);
+  const [selectedSupplier, setSelectedSupplier] = useState<SupplierListDto | null>(null);
 
   const loadSuppliers = async (page = 1, newFilters: GetAllSupplierFilterDto = {}) => {
     try {
@@ -130,6 +133,20 @@ export function SupplierManagement() {
     setEditingSupplier(null);
   };
 
+  const handleViewRelationships = (supplier: SupplierListDto) => {
+    setSelectedSupplier(supplier);
+    setIsRelationshipModalOpen(true);
+  };
+
+  const handleRelationshipModalClose = () => {
+    setIsRelationshipModalOpen(false);
+    setSelectedSupplier(null);
+  };
+
+  const handleRelationshipUpdate = () => {
+    loadSuppliers(pagination?.page || 1, filters);
+  };
+
   return (
     <Stack gap="lg">
       <Group justify="space-between" align="center">
@@ -166,6 +183,7 @@ export function SupplierManagement() {
         onEdit={handleEdit}
         onDelete={handleDelete}
         onUpdate={() => loadSuppliers(pagination?.page || 1, filters)}
+        onViewRelationships={handleViewRelationships}
         isLoading={isLoading}
       />
 
@@ -197,6 +215,16 @@ export function SupplierManagement() {
           isLoading={isLoading}
         />
       </Modal>
+
+      {selectedSupplier && (
+        <RelationshipModal
+          opened={isRelationshipModalOpen}
+          onClose={handleRelationshipModalClose}
+          entity={selectedSupplier}
+          entityType="supplier"
+          onUpdate={handleRelationshipUpdate}
+        />
+      )}
     </Stack>
   );
 }
