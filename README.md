@@ -1,19 +1,70 @@
-# Next App Mantine Tailwind Template
+# Challenge Front 2
 
-This is a minimal template for a Next.js project with Mantine v7 and Tailwind CSS v4.
+Sistema de gestão de empresas e fornecedores construído com Next.js, Mantine e Tailwind CSS.
 
-If you are looking for example with Tailwind CSS v3, you can find it at the [tw3](https://github.com/songkeys/next-app-mantine-tailwind-template/tree/tw3) branch.
+## 🚀 Tecnologias
 
-## Development
+- **Next.js 15** - Framework React com App Router
+- **React 18** - Biblioteca de interface de usuário
+- **TypeScript** - Tipagem estática
+- **Mantine v8** - Biblioteca de componentes UI
+- **Tailwind CSS v4** - Framework CSS utilitário
+- **Zod** - Validação de schemas
+- **Axios** - Cliente HTTP
 
-Run the development server:
+## 🛠️ Como Executar
+
+### Pré-requisitos
+- Node.js 18+
+- pnpm ou npm
+
+### Instalação e Execução
 
 ```bash
-npm run dev
+# Instalar dependências
+npm install
+
+# Executar em desenvolvimento
+npm dev
+
+# Build para produção
+npm build
+
+# Executar build de produção
+npm start
 ```
 
-## More information
+### Outros Comandos
+
+```bash
+# Linting
+npm lint
+npm lint:fix
+
+# Formatação
+npm format
+```
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+├── app/                 # Páginas (App Router)
+├── components/          # Componentes organizados
+│   ├── atoms/          # Componentes básicos
+│   ├── molecules/      # Componentes compostos
+│   └── organisms/      # Componentes complexos
+├── services/           # Serviços de API
+├── types/              # Definições TypeScript
+└── schemas/            # Schemas de validação
+```
+
+## 🔗 Links Úteis
 
 - [Mantine](https://mantine.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [tailwind-preset-mantine](https://github.com/songkeys/tailwind-preset-mantine)
+- [Next.js](https://nextjs.org/)
+
+⚠️ Importante: Para o funcionamento correto do front-end, é necessário que a API esteja em execução. Certifique-se de iniciar a API antes de executar o front-end.
+
+Para mais informações sobre como executar a API, consulte o README do projeto da API.
