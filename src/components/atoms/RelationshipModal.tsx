@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal, Button, Text, Stack, Group, ScrollArea, ActionIcon, Badge, Loader, Center } from '@mantine/core';
 import { IconPlus, IconTrash, IconX } from '@tabler/icons-react';
 import { CompanyListDto, CompanySupplierListDto } from '@/types/company';
@@ -28,10 +28,22 @@ export function RelationshipModal({
   const [availableEntities, setAvailableEntities] = useState<(CompanyListDto | SupplierListDto)[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState<number | null>(null);
+  
+  // Estado local para gerenciar relacionamentos
+  const [localRelationships, setLocalRelationships] = useState<(CompanySupplierListDto | SupplierCompanyListDto)[]>([]);
+  
+  // Inicializar estado local quando o modal abrir ou a entidade mudar
+  useEffect(() => {
+    if (opened && entity) {
+      const relationships = entityType === 'company' 
+        ? (entity as CompanyListDto).companySuppliers 
+        : (entity as SupplierListDto).companySuppliers;
+      setLocalRelationships(relationships);
+    }
+  }, [opened, entity, entityType]);
 
-  const relationships = entityType === 'company' 
-    ? (entity as CompanyListDto).companySuppliers 
-    : (entity as SupplierListDto).companySuppliers;
+  // Usar estado local em vez dos dados da entidade
+  const relationships = localRelationships;
 
   const handleAddRelationship = async () => {
     setIsLoading(true);
@@ -74,7 +86,55 @@ export function RelationshipModal({
   };
 
   const handleCreateRelationship = async (targetEntityId: number) => {
+    // Encontrar a entidade alvo para criar o relacionamento otimisticamente
+    const targetEntity = availableEntities.find(e => e.id === targetEntityId);
+    if (!targetEntity) return;
+
+    // Criar relacionamento otimisticamente
+    const optimisticRelationship = entityType === 'company' 
+      ? {
+          id: Date.now(), // ID temporário
+          companyId: entity.id,
+          supplierId: targetEntityId,
+          supplier: {
+            id: targetEntity.id,
+            name: (targetEntity as SupplierListDto).name,
+            email: (targetEntity as SupplierListDto).email,
+            zipCode: (targetEntity as SupplierListDto).zipCode,
+            cpf: (targetEntity as SupplierListDto).cpf,
+            cnpj: (targetEntity as SupplierListDto).cnpj,
+            rg: (targetEntity as SupplierListDto).rg,
+            birthDate: (targetEntity as SupplierListDto).birthDate,
+            createdAt: (targetEntity as SupplierListDto).createdAt,
+            updatedAt: (targetEntity as SupplierListDto).updatedAt,
+          }
+        } as CompanySupplierListDto
+      : {
+          id: Date.now(), // ID temporário
+          companyId: targetEntityId,
+          supplierId: entity.id,
+          company: {
+            id: targetEntity.id,
+            cnpj: (targetEntity as CompanyListDto).cnpj,
+            fantasyName: (targetEntity as CompanyListDto).fantasyName,
+            zipCode: (targetEntity as CompanyListDto).zipCode,
+            state: (targetEntity as CompanyListDto).state,
+            createdAt: (targetEntity as CompanyListDto).createdAt,
+            updatedAt: (targetEntity as CompanyListDto).updatedAt,
+          }
+        } as SupplierCompanyListDto;
+
+    // Atualizar estado local imediatamente
+    setLocalRelationships(prev => [...prev, optimisticRelationship]);
+    
+    // Remover a entidade da lista de disponíveis
+    setAvailableEntities(prev => prev.filter(e => e.id !== targetEntityId));
+    
+    // Fechar modal de adição
+    setShowAddModal(false);
+
     try {
+      // Fazer a chamada real para a API
       if (entityType === 'company') {
         await relationshipService.create({
           companyId: entity.id,
@@ -93,10 +153,15 @@ export function RelationshipModal({
         color: 'green',
       });
       
-      setShowAddModal(false);
+      // Atualizar dados do componente pai
       onUpdate();
     } catch (error) {
       console.error('Error creating relationship:', error);
+      
+      // Reverter alterações em caso de erro
+      setLocalRelationships(prev => prev.filter(rel => rel.id !== optimisticRelationship.id));
+      setAvailableEntities(prev => [...prev, targetEntity]);
+      
       notifications.show({
         title: 'Erro',
         message: 'Erro ao criar relacionamento',
@@ -107,7 +172,49 @@ export function RelationshipModal({
 
   const handleDeleteRelationship = async (relationshipId: number, targetEntityId: number) => {
     setIsDeleting(relationshipId);
+    
+    // Encontrar o relacionamento que será removido para backup
+    const relationshipToDelete = localRelationships.find(rel => rel.id === relationshipId);
+    if (!relationshipToDelete) return;
+
+    // Encontrar a entidade alvo para readicionar à lista de disponíveis
+    const targetEntity = entityType === 'company' 
+      ? (relationshipToDelete as CompanySupplierListDto).supplier
+      : (relationshipToDelete as SupplierCompanyListDto).company;
+
+    // Remover relacionamento otimisticamente
+    setLocalRelationships(prev => prev.filter(rel => rel.id !== relationshipId));
+    
+    // Readicionar entidade à lista de disponíveis
+    const entityToAdd = entityType === 'company' 
+      ? {
+          id: targetEntity.id,
+          name: (targetEntity as any).name,
+          email: (targetEntity as any).email,
+          zipCode: (targetEntity as any).zipCode,
+          cpf: (targetEntity as any).cpf,
+          cnpj: (targetEntity as any).cnpj,
+          rg: (targetEntity as any).rg,
+          birthDate: (targetEntity as any).birthDate,
+          createdAt: (targetEntity as any).createdAt,
+          updatedAt: (targetEntity as any).updatedAt,
+          companySuppliers: []
+        } as SupplierListDto
+      : {
+          id: targetEntity.id,
+          cnpj: (targetEntity as any).cnpj,
+          fantasyName: (targetEntity as any).fantasyName,
+          zipCode: (targetEntity as any).zipCode,
+          state: (targetEntity as any).state,
+          createdAt: (targetEntity as any).createdAt,
+          updatedAt: (targetEntity as any).updatedAt,
+          companySuppliers: []
+        } as CompanyListDto;
+
+    setAvailableEntities(prev => [...prev, entityToAdd]);
+
     try {
+      // Fazer a chamada real para a API
       if (entityType === 'company') {
         await relationshipService.delete(entity.id, targetEntityId);
       } else {
@@ -120,9 +227,15 @@ export function RelationshipModal({
         color: 'green',
       });
       
+      // Atualizar dados do componente pai
       onUpdate();
     } catch (error) {
       console.error('Error deleting relationship:', error);
+      
+      // Reverter alterações em caso de erro
+      setLocalRelationships(prev => [...prev, relationshipToDelete]);
+      setAvailableEntities(prev => prev.filter(e => e.id !== targetEntityId));
+      
       notifications.show({
         title: 'Erro',
         message: 'Erro ao remover relacionamento',
@@ -151,7 +264,11 @@ export function RelationshipModal({
     <>
       <Modal
         opened={opened}
-        onClose={onClose}
+        onClose={() => {
+          onClose();
+          // Resetar estado local quando fechar o modal
+          setLocalRelationships([]);
+        }}
         title={`Relacionamentos - ${entityType === 'company' ? 'Empresa' : 'Fornecedor'}`}
         size="lg"
       >
