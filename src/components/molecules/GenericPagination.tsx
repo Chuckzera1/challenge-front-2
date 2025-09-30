@@ -2,12 +2,13 @@ import { Pagination, Group, Text } from '@mantine/core';
 import { PagedResultDto } from '@/types/shared';
 
 interface GenericPaginationProps {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   pagination: PagedResultDto<any>;
   onPageChange: (page: number) => void;
   isLoading?: boolean;
-  entityName?: string; // Nome da entidade para o texto (ex: "empresas", "fornecedores")
-  showInfo?: boolean; // Se deve mostrar informações de "Mostrando X a Y de Z"
-  variant?: 'simple' | 'detailed'; // Variante do layout
+  entityName?: string;
+  showInfo?: boolean;
+  variant?: 'simple' | 'detailed';
 }
 
 export function GenericPagination({ 

@@ -1,5 +1,4 @@
 import { Paper, Badge } from '@mantine/core';
-import { IconEdit, IconTrash } from '@tabler/icons-react';
 import { ReactNode } from 'react';
 
 export interface CardAction {

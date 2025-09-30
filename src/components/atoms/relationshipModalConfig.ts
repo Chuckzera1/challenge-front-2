@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CompanyListDto, CompanySupplierListDto } from '@/types/company';
 import { SupplierListDto, SupplierCompanyListDto } from '@/types/supplier';
 import { relationshipService } from '@/services';

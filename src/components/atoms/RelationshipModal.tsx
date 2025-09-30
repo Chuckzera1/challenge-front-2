@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useState, useEffect } from 'react';
-import { Modal, Button, Text, Stack, Group, ScrollArea, ActionIcon, Badge, Loader, Center } from '@mantine/core';
+import { Modal, Button, Text, Stack, Group, ScrollArea, ActionIcon, Loader, Center } from '@mantine/core';
 import { IconPlus, IconTrash, IconX } from '@tabler/icons-react';
 import { CompanyListDto, CompanySupplierListDto } from '@/types/company';
 import { SupplierListDto, SupplierCompanyListDto } from '@/types/supplier';

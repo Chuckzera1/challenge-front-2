@@ -17,6 +17,7 @@ export function CompanyFilters({ onFilter, onClear, isLoading = false }: Company
 
   const handleFilter = () => {
     const cleanFilters = Object.fromEntries(
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       Object.entries(filters).filter(([_, value]) => value && value.trim() !== '')
     );
     onFilter(cleanFilters);

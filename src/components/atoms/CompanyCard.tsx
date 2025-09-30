@@ -10,7 +10,7 @@ interface CompanyCardProps {
   onViewRelationships?: (company: CompanyListDto) => void;
 }
 
-export function CompanyCard({ company, onEdit, onDelete, onUpdate, onViewRelationships }: CompanyCardProps) {
+export function CompanyCard({ company, onEdit, onDelete, onViewRelationships }: CompanyCardProps) {
   const actions = [];
   
   if (onViewRelationships) {
