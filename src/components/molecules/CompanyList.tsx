@@ -6,6 +6,7 @@ interface CompanyListProps {
   companies: CompanyListDto[];
   onEdit?: (company: CompanyListDto) => void;
   onDelete?: (id: number) => void;
+  onUpdate?: () => void;
   isLoading?: boolean;
   emptyMessage?: string;
 }
@@ -14,6 +15,7 @@ export function CompanyList({
   companies, 
   onEdit, 
   onDelete, 
+  onUpdate,
   isLoading = false,
   emptyMessage = 'Nenhuma empresa encontrada'
 }: CompanyListProps) {
@@ -45,6 +47,7 @@ export function CompanyList({
           company={company}
           onEdit={onEdit}
           onDelete={onDelete}
+          onUpdate={onUpdate}
         />
       ))}
     </div>

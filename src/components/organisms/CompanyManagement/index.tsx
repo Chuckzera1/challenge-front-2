@@ -10,7 +10,7 @@ import {
 } from '@mantine/core';
 import { IconPlus, IconAlertCircle } from '@tabler/icons-react';
 import { CompanyList } from '../../molecules/CompanyList';
-import { CompanyPagination } from '../../molecules/CompanyPagination';
+import { GenericPagination } from '../../molecules/GenericPagination';
 import { CompanyFilters } from '../../atoms/CompanyFilters';
 import { CompanyForm } from '../../atoms/CompanyForm';
 import { companyService } from '@/services/companyService';
@@ -39,7 +39,7 @@ export function CompanyManagement() {
       const result = await companyService.getAll({
         ...newFilters,
         page,
-        limit: 12,
+        limit: 9,
       });
       
       setCompanies(result.data);
@@ -165,14 +165,16 @@ export function CompanyManagement() {
         companies={companies}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        onUpdate={() => loadCompanies(pagination?.page || 1, filters)}
         isLoading={isLoading}
       />
 
       {pagination && (
-        <CompanyPagination
+        <GenericPagination
           pagination={pagination}
           onPageChange={handlePageChange}
           isLoading={isLoading}
+          entityName="empresas"
         />
       )}
 
