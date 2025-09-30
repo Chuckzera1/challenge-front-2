@@ -1,6 +1,6 @@
 import { CompanyListDto } from '@/types/company';
 import { CompanyCard } from '../atoms/CompanyCard';
-import { Stack, Text, Loader, Center } from '@mantine/core';
+import { Stack, Text, Loader, Center, Grid, Skeleton } from '@mantine/core';
 
 interface CompanyListProps {
   companies: CompanyListDto[];
@@ -23,9 +23,13 @@ export function CompanyList({
 }: CompanyListProps) {
   if (isLoading) {
     return (
-      <Center py="xl">
-        <Loader size="lg" />
-      </Center>
+        <Grid>
+        {Array.from({ length: 6 }).map((_, index) => (
+          <Grid.Col key={index} span={{ base: 12, sm: 6, lg: 4 }}>
+            <Skeleton height={200} />
+          </Grid.Col>
+        ))}
+      </Grid>
     );
   }
 

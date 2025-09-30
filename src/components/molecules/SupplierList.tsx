@@ -1,7 +1,7 @@
-import { Grid, Skeleton } from '@mantine/core';
+import { Center, Grid, Skeleton, Stack, Text } from '@mantine/core';
 import { SupplierCard } from '../atoms/SupplierCard';
 import { SupplierListDto } from '@/types/supplier';
-
+  
 interface SupplierListProps {
   suppliers: SupplierListDto[];
   onEdit?: (supplier: SupplierListDto) => void;
@@ -9,9 +9,10 @@ interface SupplierListProps {
   onUpdate?: () => void;
   onViewRelationships?: (supplier: SupplierListDto) => void;
   isLoading?: boolean;
+  emptyMessage?: string;
 }
 
-export function SupplierList({ suppliers, onEdit, onDelete, onUpdate, onViewRelationships, isLoading = false }: SupplierListProps) {
+export function SupplierList({ suppliers, onEdit, onDelete, onUpdate, onViewRelationships, isLoading = false, emptyMessage = 'Nenhum fornecedor encontrado' }: SupplierListProps) {
   if (isLoading) {
     return (
       <Grid>
@@ -26,12 +27,13 @@ export function SupplierList({ suppliers, onEdit, onDelete, onUpdate, onViewRela
 
   if (suppliers.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-500 text-lg">Nenhum fornecedor encontrado</p>
-        <p className="text-gray-400 text-sm mt-2">
-          Tente ajustar os filtros ou adicionar um novo fornecedor
-        </p>
-      </div>
+      <Center py="xl">
+        <Stack align="center" gap="md">
+          <Text c="dimmed" size="lg">
+            {emptyMessage}
+          </Text>
+        </Stack>
+      </Center>
     );
   }
 
