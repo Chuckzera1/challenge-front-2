@@ -2,6 +2,8 @@
 
 Sistema de gestão de empresas e fornecedores construído com Next.js, Mantine e Tailwind CSS.
 
+🌐 **Acesso Online:** [https://challenge-front-2.vercel.app/](https://challenge-front-2.vercel.app/)
+
 ## 🚀 Tecnologias
 
 - **Next.js 15** - Framework React com App Router
