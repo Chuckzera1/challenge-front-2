@@ -1,3 +1,4 @@
+import { ButtonsNavHome } from "@/components/organisms/ButtonsNavHome";
 import { HomePaper } from "@/components/organisms/HomePaper";
 import { IconBuilding, IconUsers } from "@tabler/icons-react";
 
@@ -11,6 +12,8 @@ export default function Home() {
         <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
           Gerencie empresas e fornecedores de forma eficiente e organizada
         </p>
+
+        <ButtonsNavHome />
       </div>
 
       <div className="mt-20">
@@ -20,6 +23,7 @@ export default function Home() {
             subtitle="Cadastre e gerencie informações das empresas."
             icon={<IconBuilding className="h-6 w-6 text-white" />}
             bgIconColor="bg-blue-500"
+            link="/companies"
           />
 
           <HomePaper
@@ -27,6 +31,7 @@ export default function Home() {
             subtitle="Gerencie fornecedores pessoa física e jurídica."
             icon={<IconUsers className="h-6 w-6 text-white" />}
             bgIconColor="bg-green-500"
+            link="/suppliers"
           />
         </div>
       </div>
