@@ -9,10 +9,8 @@ export const api = axios.create({
   },
 });
 
-// Request interceptor
 api.interceptors.request.use(
   (config) => {
-    // Add any auth tokens here if needed
     return config;
   },
   (error) => {
@@ -20,15 +18,12 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor
 api.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
-    // Handle common errors here
     if (error.response?.status === 401) {
-      // Handle unauthorized
     }
     return Promise.reject(error);
   }

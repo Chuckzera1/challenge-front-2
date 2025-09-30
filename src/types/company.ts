@@ -1,4 +1,5 @@
-// Base DTOs
+import { PaginationDto, PagedResultDto } from './shared';
+
 export interface CreateCompanyDto {
   cnpj: string;
   fantasyName: string;
@@ -20,25 +21,7 @@ export interface CompanyListDto {
   companySuppliers: CompanySupplierListDto[];
 }
 
-export interface CompanyResponseDto {
-  id: number;
-  cnpj: string;
-  fantasyName: string;
-  zipCode: string;
-  state: string;
-  createdAt: string;
-  updatedAt: string;
-  companySuppliers: CompanySupplierResponseDto[];
-}
-
 export interface CompanySupplierListDto {
-  id: number;
-  companyId: number;
-  supplierId: number;
-  supplier: SupplierBasicDto;
-}
-
-export interface CompanySupplierResponseDto {
   id: number;
   companyId: number;
   supplierId: number;
@@ -58,7 +41,6 @@ export interface SupplierBasicDto {
   updatedAt: string;
 }
 
-// Filter DTOs
 export interface GetAllCompanyFilterDto {
   page?: number;
   limit?: number;
@@ -66,19 +48,3 @@ export interface GetAllCompanyFilterDto {
   cnpj?: string;
 }
 
-// Pagination DTOs
-export interface PaginationDto {
-  page: number;
-  limit: number;
-  skip: number;
-}
-
-export interface PagedResultDto<T> {
-  data: T[];
-  totalCount: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-}

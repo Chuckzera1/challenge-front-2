@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className="antialiased">
       <Navigation />
         <MantineProvider theme={theme}>
-          <Notifications />
+          <Notifications position="top-right"/>
           {children}
         </MantineProvider>
       </body>

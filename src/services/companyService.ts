@@ -3,10 +3,9 @@ import {
   CreateCompanyDto,
   UpdateCompanyDto,
   CompanyListDto,
-  CompanyResponseDto,
   GetAllCompanyFilterDto,
-  PagedResultDto,
 } from '@/types/company';
+import { PagedResultDto } from '@/types/shared';
 
 export const companyService = {
   // Get all companies with pagination and filters
@@ -15,20 +14,15 @@ export const companyService = {
     return response.data;
   },
 
-  // Get company by ID
-  async getById(id: number): Promise<CompanyResponseDto> {
-    const response = await api.get(`/company/${id}`);
-    return response.data;
-  },
 
   // Create new company
-  async create(data: CreateCompanyDto): Promise<CompanyResponseDto> {
+  async create(data: CreateCompanyDto): Promise<CompanyListDto> {
     const response = await api.post('/company', data);
     return response.data;
   },
 
   // Update company
-  async update(id: number, data: UpdateCompanyDto): Promise<CompanyResponseDto> {
+  async update(id: number, data: UpdateCompanyDto): Promise<CompanyListDto> {
     const response = await api.put(`/company/${id}`, data);
     return response.data;
   },

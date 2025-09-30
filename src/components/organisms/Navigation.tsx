@@ -10,7 +10,6 @@ export default function Navigation() {
     { href: '/', label: 'Home' },
     { href: '/companies', label: 'Empresas' },
     { href: '/suppliers', label: 'Fornecedores' },
-    { href: '/relations', label: 'Relacionamentos' },
   ];
 
   return (

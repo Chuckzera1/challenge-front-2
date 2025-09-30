@@ -1,10 +1,10 @@
-// Enums
+import { PaginationDto, PagedResultDto } from './shared';
+
 export enum PersonType {
   Individual = 1,
   Company = 2
 }
 
-// Base DTOs
 export interface CreateSupplierDto {
   name: string;
   email: string;
@@ -37,28 +37,7 @@ export interface SupplierListDto {
   companySuppliers: SupplierCompanyListDto[];
 }
 
-export interface SupplierResponseDto {
-  id: number;
-  name: string;
-  email: string;
-  zipCode: string;
-  cpf?: string;
-  cnpj?: string;
-  rg?: string;
-  birthDate?: string;
-  createdAt: string;
-  updatedAt: string;
-  companySuppliers: SupplierCompanyResponseDto[];
-}
-
 export interface SupplierCompanyListDto {
-  id: number;
-  companyId: number;
-  supplierId: number;
-  company: CompanyBasicDto;
-}
-
-export interface SupplierCompanyResponseDto {
   id: number;
   companyId: number;
   supplierId: number;
@@ -75,7 +54,6 @@ export interface CompanyBasicDto {
   updatedAt: string;
 }
 
-// Filter DTOs
 export interface GetAllSupplierFilterDto {
   page?: number;
   limit?: number;
@@ -84,19 +62,3 @@ export interface GetAllSupplierFilterDto {
   cnpj?: string;
 }
 
-// Pagination DTOs (reusing from company.ts)
-export interface PaginationDto {
-  page: number;
-  limit: number;
-  skip: number;
-}
-
-export interface PagedResultDto<T> {
-  data: T[];
-  totalCount: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-}

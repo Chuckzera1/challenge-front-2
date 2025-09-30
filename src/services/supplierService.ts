@@ -3,10 +3,9 @@ import {
   CreateSupplierDto,
   UpdateSupplierDto,
   SupplierListDto,
-  SupplierResponseDto,
   GetAllSupplierFilterDto,
-  PagedResultDto,
 } from '@/types/supplier';
+import { PagedResultDto } from '@/types/shared';
 
 export const supplierService = {
   // Get all suppliers with pagination and filters
@@ -15,20 +14,15 @@ export const supplierService = {
     return response.data;
   },
 
-  // Get supplier by ID
-  async getById(id: number): Promise<SupplierResponseDto> {
-    const response = await api.get(`/supplier/${id}`);
-    return response.data;
-  },
 
   // Create new supplier
-  async create(data: CreateSupplierDto): Promise<SupplierResponseDto> {
+  async create(data: CreateSupplierDto): Promise<SupplierListDto> {
     const response = await api.post('/supplier', data);
     return response.data;
   },
 
   // Update supplier
-  async update(id: number, data: UpdateSupplierDto): Promise<SupplierResponseDto> {
+  async update(id: number, data: UpdateSupplierDto): Promise<SupplierListDto> {
     const response = await api.put(`/supplier/${id}`, data);
     return response.data;
   },

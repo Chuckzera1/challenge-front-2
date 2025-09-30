@@ -1,6 +1,5 @@
-import { ButtonsNavHome } from "@/components/organisms/ButtonsNavHome";
 import { HomePaper } from "@/components/organisms/HomePaper";
-import { IconBolt, IconBuilding, IconUsers } from "@tabler/icons-react";
+import { IconBuilding, IconUsers } from "@tabler/icons-react";
 
 export default function Home() {
   return (
@@ -12,11 +11,10 @@ export default function Home() {
         <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
           Gerencie empresas e fornecedores de forma eficiente e organizada
         </p>
-        <ButtonsNavHome />
       </div>
 
       <div className="mt-20">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
           <HomePaper
             title="Empresas"
             subtitle="Cadastre e gerencie informações das empresas."
@@ -29,12 +27,6 @@ export default function Home() {
             subtitle="Gerencie fornecedores pessoa física e jurídica."
             icon={<IconUsers className="h-6 w-6 text-white" />}
             bgIconColor="green"
-          />
-          <HomePaper
-            title="Relacionamentos"
-            subtitle="Estabeleça e gerencie relacionamentos entre empresas e fornecedores."
-            icon={<IconBolt className="h-6 w-6 text-white" />}
-            bgIconColor="purple"
           />
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { Pagination, Group, Text } from '@mantine/core';
-import { PagedResultDto } from '@/types/company';
+import { PagedResultDto } from '@/types/shared';
 
 interface GenericPaginationProps {
   pagination: PagedResultDto<any>;

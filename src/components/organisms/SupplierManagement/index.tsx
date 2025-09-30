@@ -14,14 +14,14 @@ import { GenericPagination } from '../../molecules/GenericPagination';
 import { SupplierFilters } from '../../atoms/SupplierFilters';
 import { SupplierForm } from '../../atoms/SupplierForm';
 import { RelationshipModal } from '../../atoms/RelationshipModal';
-import { supplierService } from '@/services/supplierService';
+import { supplierService } from '@/services';
 import { 
   SupplierListDto, 
   CreateSupplierDto, 
   UpdateSupplierDto, 
-  GetAllSupplierFilterDto,
-  PagedResultDto 
+  GetAllSupplierFilterDto
 } from '@/types/supplier';
+import { PagedResultDto } from '@/types/shared';
 
 export function SupplierManagement() {
   const [suppliers, setSuppliers] = useState<SupplierListDto[]>([]);

@@ -14,14 +14,14 @@ import { GenericPagination } from '../../molecules/GenericPagination';
 import { CompanyFilters } from '../../atoms/CompanyFilters';
 import { CompanyForm } from '../../atoms/CompanyForm';
 import { RelationshipModal } from '../../atoms/RelationshipModal';
-import { companyService } from '@/services/companyService';
+import { companyService } from '@/services';
 import { 
   CompanyListDto, 
   CreateCompanyDto, 
   UpdateCompanyDto, 
-  GetAllCompanyFilterDto,
-  PagedResultDto 
+  GetAllCompanyFilterDto
 } from '@/types/company';
+import { PagedResultDto } from '@/types/shared';
 
 export function CompanyManagement() {
   const [companies, setCompanies] = useState<CompanyListDto[]>([]);
