@@ -6,6 +6,7 @@ import {
 } from "@mantine/core";
 import theme from "./theme";
 import "./globals.css";
+import Navigation from "@/components/organisms/Navigation";
 
 export const metadata: Metadata = {
   title: "Next App Mantine Tailwind Template",
@@ -23,6 +24,7 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body className="antialiased">
+      <Navigation />
         <MantineProvider theme={theme}>{children}</MantineProvider>
       </body>
     </html>
