@@ -19,14 +19,14 @@ export default function Home() {
             title="Empresas"
             subtitle="Cadastre e gerencie informações das empresas."
             icon={<IconBuilding className="h-6 w-6 text-white" />}
-            bgIconColor="blue"
+            bgIconColor="bg-blue-500"
           />
 
           <HomePaper
             title="Fornecedores"
             subtitle="Gerencie fornecedores pessoa física e jurídica."
             icon={<IconUsers className="h-6 w-6 text-white" />}
-            bgIconColor="green"
+            bgIconColor="bg-green-500"
           />
         </div>
       </div>
