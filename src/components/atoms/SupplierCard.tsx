@@ -2,6 +2,7 @@ import { SupplierListDto } from '@/types/supplier';
 import { IconUser, IconBuilding, IconMapPin, IconCalendar, IconEdit, IconTrash, IconMail, IconLink } from '@tabler/icons-react';
 import { PersonType } from '@/types/supplier';
 import { GenericCard } from './GenericCard';
+import { formatDateForDisplay } from '@/utils/dateUtils';
 
 interface SupplierCardProps {
   supplier: SupplierListDto;
@@ -83,7 +84,7 @@ export function SupplierCard({ supplier, onEdit, onDelete, onUpdate, onViewRelat
       {supplier.birthDate && (
         <div className="flex items-center text-sm text-gray-600">
           <IconCalendar className="h-4 w-4 mr-2" />
-          <span>Nascimento: {new Date(supplier.birthDate).toLocaleDateString('pt-BR')}</span>
+          <span>Nascimento: {formatDateForDisplay(supplier.birthDate)}</span>
         </div>
       )}
       

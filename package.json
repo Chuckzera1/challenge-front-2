@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@mantine/core": "^8.0.0",
+    "@mantine/dates": "^8.3.2",
     "@mantine/form": "^8.3.2",
     "@mantine/hooks": "^8.0.0",
     "@mantine/notifications": "^8.3.2",

@@ -1,4 +1,5 @@
-import { Button, TextInput, Stack, Group, Select, NumberInput } from '@mantine/core';
+import { Button, TextInput, Stack, Group, Select } from '@mantine/core';
+import { DatePickerInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { CreateSupplierDto, UpdateSupplierDto, PersonType } from '@/types/supplier';
@@ -34,7 +35,7 @@ export function SupplierForm({
       cpf: initialData?.cpf || '',
       cnpj: initialData?.cnpj || '',
       rg: initialData?.rg || '',
-      birthDate: initialData?.birthDate || '',
+      birthDate: initialData?.birthDate || new Date('1990-01-01T00:00:00.000').toUTCString(),
     },
     validate: zodResolver(isEditing ? updateSupplierSchema : createSupplierSchema),
   });
@@ -137,16 +138,21 @@ export function SupplierForm({
               value={form.values.rg}
               onChange={(event) => form.setFieldValue('rg', event.currentTarget.value)}
               error={form.errors.rg}
+              maxLength={9}
               required
             />
 
-            <TextInput
+            <DatePickerInput
               label="Data de Nascimento"
-              placeholder="YYYY-MM-DD"
+              placeholder="Selecione a data de nascimento"
               value={form.values.birthDate}
-              onChange={(event) => form.setFieldValue('birthDate', event.currentTarget.value)}
+              onChange={(value) => form.setFieldValue('birthDate', value || '')}
               error={form.errors.birthDate}
               required
+              locale="pt-BR"
+              valueFormat="DD/MM/YYYY"
+              maxDate={new Date()}
+              clearable
             />
           </>
         )}
