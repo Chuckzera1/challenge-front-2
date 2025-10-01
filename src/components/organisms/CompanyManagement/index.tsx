@@ -22,6 +22,7 @@ import {
   GetAllCompanyFilterDto
 } from '@/types/company';
 import { PagedResultDto } from '@/types/shared';
+import { notifications } from '@mantine/notifications';
 
 export function CompanyManagement() {
   const [companies, setCompanies] = useState<CompanyListDto[]>([]);
@@ -30,14 +31,12 @@ export function CompanyManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCompany, setEditingCompany] = useState<CompanyListDto | null>(null);
   const [filters, setFilters] = useState<GetAllCompanyFilterDto>({});
-  const [error, setError] = useState<string | null>(null);
   const [isRelationshipModalOpen, setIsRelationshipModalOpen] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState<CompanyListDto | null>(null);
 
   const loadCompanies = async (page = 1, newFilters: GetAllCompanyFilterDto = {}) => {
     try {
       setIsLoading(true);
-      setError(null);
       
       const result = await companyService.getAll({
         ...newFilters,
@@ -48,7 +47,11 @@ export function CompanyManagement() {
       setCompanies(result.data);
       setPagination(result);
     } catch (err) {
-      setError('Erro ao carregar empresas. Tente novamente.');
+      notifications.show({
+        title: 'Erro',
+        message: 'Erro ao carregar empresas. Tente novamente.',
+        color: 'red',
+      });
       console.error('Error loading companies:', err);
     } finally {
       setIsLoading(false);
@@ -68,7 +71,11 @@ export function CompanyManagement() {
       setIsModalOpen(false);
       await loadCompanies(pagination?.page || 1, filters);
     } catch (err) {
-      setError('Erro ao criar empresa. Tente novamente.');
+      notifications.show({
+        title: 'Erro',
+        message: 'Erro ao criar empresa. Tente novamente.',
+        color: 'red',
+      });
       console.error('Error creating company:', err);
     } finally {
       setIsLoading(false);
@@ -87,7 +94,11 @@ export function CompanyManagement() {
       setEditingCompany(null);
       await loadCompanies(pagination?.page || 1, filters);
     } catch (err) {
-      setError('Erro ao atualizar empresa. Tente novamente.');
+      notifications.show({
+        title: 'Erro',
+        message: 'Erro ao atualizar empresa. Tente novamente.',
+        color: 'red',
+      });
       console.error('Error updating company:', err);
     } finally {
       setIsLoading(false);
@@ -102,7 +113,11 @@ export function CompanyManagement() {
       await companyService.delete(id);
       await loadCompanies(pagination?.page || 1, filters);
     } catch (err) {
-      setError('Erro ao excluir empresa. Tente novamente.');
+      notifications.show({
+        title: 'Erro',
+        message: 'Erro ao excluir empresa. Tente novamente.',
+        color: 'red',
+      });
       console.error('Error deleting company:', err);
     } finally {
       setIsLoading(false);
@@ -159,18 +174,6 @@ export function CompanyManagement() {
           Nova Empresa
         </Button>
       </Group>
-
-      {error && (
-        <Alert
-          icon={<IconAlertCircle size={16} />}
-          title="Erro"
-          color="red"
-          onClose={() => setError(null)}
-          withCloseButton
-        >
-          {error}
-        </Alert>
-      )}
 
       <CompanyFilters
         onFilter={handleFilter}

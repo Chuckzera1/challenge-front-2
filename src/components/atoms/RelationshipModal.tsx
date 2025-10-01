@@ -57,7 +57,6 @@ export function RelationshipModal({
       setAvailableEntities(availableEntities);
       setShowAddModal(true);
     } catch (error) {
-      console.error('Error loading available entities:', error);
       notifications.show({
         title: 'Erro',
         message: 'Erro ao carregar entidades disponíveis',

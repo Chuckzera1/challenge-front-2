@@ -22,6 +22,7 @@ import {
   GetAllSupplierFilterDto
 } from '@/types/supplier';
 import { PagedResultDto } from '@/types/shared';
+import { notifications } from '@mantine/notifications';
 
 export function SupplierManagement() {
   const [suppliers, setSuppliers] = useState<SupplierListDto[]>([]);
@@ -30,14 +31,12 @@ export function SupplierManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState<SupplierListDto | null>(null);
   const [filters, setFilters] = useState<GetAllSupplierFilterDto>({});
-  const [error, setError] = useState<string | null>(null);
   const [isRelationshipModalOpen, setIsRelationshipModalOpen] = useState(false);
   const [selectedSupplier, setSelectedSupplier] = useState<SupplierListDto | null>(null);
 
   const loadSuppliers = async (page = 1, newFilters: GetAllSupplierFilterDto = {}) => {
     try {
       setIsLoading(true);
-      setError(null);
       
       const result = await supplierService.getAll({
         ...newFilters,
@@ -48,7 +47,11 @@ export function SupplierManagement() {
       setSuppliers(result.data);
       setPagination(result);
     } catch (err) {
-      setError('Erro ao carregar fornecedores. Tente novamente.');
+      notifications.show({
+        title: 'Erro',
+        message: 'Erro ao carregar fornecedores. Tente novamente.',
+        color: 'red',
+      });
       console.error('Error loading suppliers:', err);
     } finally {
       setIsLoading(false);
@@ -68,7 +71,11 @@ export function SupplierManagement() {
       setIsModalOpen(false);
       await loadSuppliers(pagination?.page || 1, filters);
     } catch (err) {
-      setError('Erro ao criar fornecedor. Tente novamente.');
+      notifications.show({
+        title: 'Erro',
+        message: 'Erro ao criar fornecedor. Tente novamente.',
+        color: 'red',
+      });
       console.error('Error creating supplier:', err);
     } finally {
       setIsLoading(false);
@@ -87,7 +94,11 @@ export function SupplierManagement() {
       setEditingSupplier(null);
       await loadSuppliers(pagination?.page || 1, filters);
     } catch (err) {
-      setError('Erro ao atualizar fornecedor. Tente novamente.');
+      notifications.show({
+        title: 'Erro',
+        message: 'Erro ao atualizar fornecedor. Tente novamente.',
+        color: 'red',
+      });
       console.error('Error updating supplier:', err);
     } finally {
       setIsLoading(false);
@@ -102,7 +113,11 @@ export function SupplierManagement() {
       await supplierService.delete(id);
       await loadSuppliers(pagination?.page || 1, filters);
     } catch (err) {
-      setError('Erro ao excluir fornecedor. Tente novamente.');
+      notifications.show({
+        title: 'Erro',
+        message: 'Erro ao excluir fornecedor. Tente novamente.',
+        color: 'red',
+      });
       console.error('Error deleting supplier:', err);
     } finally {
       setIsLoading(false);
@@ -159,18 +174,6 @@ export function SupplierManagement() {
           Novo Fornecedor
         </Button>
       </Group>
-
-      {error && (
-        <Alert
-          icon={<IconAlertCircle size={16} />}
-          title="Erro"
-          color="red"
-          onClose={() => setError(null)}
-          withCloseButton
-        >
-          {error}
-        </Alert>
-      )}
 
       <SupplierFilters
         onFilter={handleFilter}
