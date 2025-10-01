@@ -3,6 +3,8 @@ import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { CreateCompanyDto, UpdateCompanyDto } from '@/types/company';
 import { createCompanySchema, updateCompanySchema } from '@/schemas/company';
+import { CnpjInput } from './CnpjInput';
+import { CepInput } from './CepInput';
 
 interface CompanyFormProps {
   initialData?: Partial<CreateCompanyDto>;
@@ -45,13 +47,10 @@ export function CompanyForm({
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <Stack gap="md">
         {!isEditing && (
-          <TextInput
-            label="CNPJ"
-            placeholder="Digite o CNPJ (apenas números)"
+          <CnpjInput
             value={form.values.cnpj}
-            onChange={(event) => form.setFieldValue('cnpj', event.currentTarget.value)}
+            onChange={(value) => form.setFieldValue('cnpj', value)}
             error={form.errors.cnpj}
-            maxLength={14}
           />
         )}
 
@@ -64,13 +63,10 @@ export function CompanyForm({
         />
 
         {!isEditing && (
-          <TextInput
-            label="CEP"
-            placeholder="Digite o CEP (apenas números)"
+          <CepInput
             value={form.values.zipCode}
-            onChange={(event) => form.setFieldValue('zipCode', event.currentTarget.value)}
+            onChange={(value) => form.setFieldValue('zipCode', value)}
             error={form.errors.zipCode}
-            maxLength={8}
           />
         )}
 

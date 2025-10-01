@@ -5,6 +5,8 @@ import { zodResolver } from 'mantine-form-zod-resolver';
 import { CreateSupplierDto, UpdateSupplierDto, PersonType } from '@/types/supplier';
 import { createSupplierSchema, updateSupplierSchema } from '@/schemas/supplier';
 import { useState } from 'react';
+import { CnpjInput } from './CnpjInput';
+import { CepInput } from './CepInput';
 
 interface SupplierFormProps {
   initialData?: Partial<CreateSupplierDto>;
@@ -110,13 +112,10 @@ export function SupplierForm({
           required
         />
 
-        <TextInput
-          label="CEP"
-          placeholder="Digite o CEP (apenas números)"
+        <CepInput
           value={form.values.zipCode}
-          onChange={(event) => form.setFieldValue('zipCode', event.currentTarget.value)}
+          onChange={(value) => form.setFieldValue('zipCode', value)}
           error={form.errors.zipCode}
-          maxLength={8}
           required
         />
 
@@ -126,7 +125,7 @@ export function SupplierForm({
               label="CPF"
               placeholder="Digite o CPF (apenas números)"
               value={form.values.cpf}
-              onChange={(event) => form.setFieldValue('cpf', event.currentTarget.value)}
+              onChange={(event) => form.setFieldValue('cpf', event.currentTarget.value.replace(/\D/g, ''))}
               error={form.errors.cpf}
               maxLength={11}
               required
@@ -136,7 +135,7 @@ export function SupplierForm({
               label="RG"
               placeholder="Digite o RG"
               value={form.values.rg}
-              onChange={(event) => form.setFieldValue('rg', event.currentTarget.value)}
+              onChange={(event) => form.setFieldValue('rg', event.currentTarget.value.replace(/\D/g, ''))}
               error={form.errors.rg}
               maxLength={9}
               required
@@ -158,13 +157,10 @@ export function SupplierForm({
         )}
 
         {!isEditing && personType === PersonType.Company && (
-          <TextInput
-            label="CNPJ"
-            placeholder="Digite o CNPJ (apenas números)"
+          <CnpjInput
             value={form.values.cnpj}
-            onChange={(event) => form.setFieldValue('cnpj', event.currentTarget.value)}
+            onChange={(value) => form.setFieldValue('cnpj', value)}
             error={form.errors.cnpj}
-            maxLength={14}
             required
           />
         )}
